@@ -1,0 +1,88 @@
+html,
+body,
+#app{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-width: 1385px;
+  /* overflow-y:hidden; */
+}
+*{
+  -webkit-touch-callout:none; /*系统默认菜单被禁用*/
+  -webkit-user-select:none; /*webkit浏览器*/
+  -khtml-user-select:none; /*早期浏览器*/
+  -moz-user-select:none;/*火狐*/
+  -ms-user-select:none; /*IE10*/
+  user-select:none;
+}
+dd{
+  margin: 0;
+}
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('../font_yfthwpjbzz/iconfont.eot');
+  src: url('../font_yfthwpjbzz/iconfont.eot?#iefix') format('embedded-opentype'),
+      url('../font_yfthwpjbzz/iconfont.woff2') format('woff2'),
+      url('../font_yfthwpjbzz/iconfont.woff') format('woff'),
+      url('../font_yfthwpjbzz/iconfont.ttf') format('truetype'),
+      url('../font_yfthwpjbzz/iconfont.svg#iconfont') format('svg');
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+input {
+  outline:none !important; 
+    /**修改颜色*/ 
+    outline-style:none !important; 
+}
+header {
+  height: 50px !important;
+}
+.search_input { 
+  border-radius: 20px !important;
+  height: 30px;
+}
+.cursorPointer{
+  cursor: pointer;
+}
+.el-container {
+  height: 100vh;
+}
+.el-aside {
+  background-color: #f5f5f7;
+}
+.el-main {
+  background-color: #fafafa;
+  padding: 10px 20px;
+} 
+/* tabs */
+.el-tabs__nav-scroll {
+  display: flex;
+  justify-content: center;
+}
+.el-tabs__active-bar {
+  background-color: #c62f2f !important;
+}
+.el-tabs__item.is-active {
+  color: #c62f2f !important;
+}
+.is-top:hover { 
+  color: #c62f2f !important;
+}
+/* tabs end */
+
+.el-loading-text{
+  color: #c62f2f !important;
+}
+.el-loading-spinner .path{
+  stroke:#c62f2f;
+}
+.el-tabs__content {
+  width: 1045px;
+  margin:0 auto;
+}
