@@ -6,9 +6,9 @@ import './plugins/element.js'
 import '@/network/axios'
 import './common/css/base.css'
 import './common/css/global.css'
-Vue.config.productionTip = true
-// Vue.config.productionTip = false
-
+import 'default-passive-events'
+Vue.config.productionTip = false
+Vue.prototype.$bus = new Vue()
 new Vue({
   router,
   store,

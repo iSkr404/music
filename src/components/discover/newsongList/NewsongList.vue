@@ -54,7 +54,7 @@ export default {
         this.offset = this.page * 30;
         this.page++;
       })
-      console.log(this.musiclist);
+      // console.log(this.musiclist);
     },
     scrollLoad () {
       console.log('到底');

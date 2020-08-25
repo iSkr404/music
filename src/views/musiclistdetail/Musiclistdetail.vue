@@ -4,14 +4,14 @@
     <detail-base-info :baseinfolist='baseinfolist'></detail-base-info>
     <detail-btns @toggleList='toggleList' :list='list'></detail-btns>
     <table-list :tracklist='tracklist' v-if="activeName == 0"></table-list>
-    <comment-list @scrollLoad='scrollLoad' :id="id" :commentlist='commentlist' v-else-if="activeName == 1"></comment-list>
+    <comment-list @scrollLoad='scrollLoad' :id="id" :hotCommentList='hotCommentList' :commentlist='commentlist' v-else-if="activeName == 1"></comment-list>
     <collector v-else :id='id'></collector>
   </div>
 </template>
 
 <script>
 // 请求路由 
-import { _getMusicListDetail, baseInfo, _getSongsDetail, songDetail, _getCommentlist } from '@/network/discover/discover'
+import { _getMusicListDetail, _getHotCommentlist, baseInfo, _getSongsDetail, songDetail, _getCommentlist } from '@/network/discover/discover'
 // 歌单介绍
 import DetailBaseInfo from './childrenComps/DetailBaseInfo'
 // 歌单切换按钮
@@ -41,7 +41,9 @@ export default {
       offset: 1,
       // 评论列表
       commentlist: [],
-      flag: true
+      flag: true,
+      // 最热评论
+      hotCommentList: []
     }
   },
   methods: {
@@ -54,43 +56,55 @@ export default {
       this.getCommentlist()
     },
     getCommentlist () {
-      // 获取评论信息
+      // 获取最新评论信息
       if (!this.flag) return
       _getCommentlist({ id: this.id, offset: this.offset, limit: this.limit }).then(result => {
-        console.log(result);
+        // console.log(result);
         if (result.comments.length == 0) {
           return this.flag = false
         }
         this.commentlist.push(...result.comments)
         this.offset += this.limit;
       })
+      if (!this.hotCommentList.length) {
+        this.getHotCommentlist()
+      }
+    },
+    getHotCommentlist () {
+      // 获取最热评论信息
+      _getHotCommentlist({ id: this.id, type: 2 }).then(result => {
+        // console.log(result);
+        this.hotCommentList.push(...result.hotComments)
+      })
+    },
+    getMusicListDetail () {
+      _getMusicListDetail(this.$route.query.id).then(result => {
+        if (result.name && result.name === 'Error') {
+          return this.$message.error('请求错误')
+        }
+        if (result.code !== 200) return this.$message.error(result.msg)
+        this.baseinfolist = new baseInfo(result.playlist)
+        let str = "评论(" + result.playlist.commentCount + ")";
+        this.list = ["歌曲列表", str, "收藏者"];
+        this.trackIds = result.playlist.trackIds
+        this.playlist = result.playlist
+        this.id = result.playlist.id
+        // console.log(this.playlist);
+        // 获取歌曲列表信息
+        for (let i of this.playlist.trackIds) {
+          _getSongsDetail(i.id).then(res => {
+            let song = new songDetail(res.songs)
+            this.tracklist.push(song)
+          })
+        }
+        // 获取评论数据
+        this.getCommentlist()
+      })
     }
   },
   mounted () {
     // 获取歌单的信息
-    _getMusicListDetail(this.$route.query.id).then(result => {
-      if (result.name && result.name === 'Error') {
-        return this.$message.error('请求错误')
-      }
-      if (result.code !== 200) return this.$message.error(result.msg)
-      this.baseinfolist = new baseInfo(result.playlist)
-      let str = "评论(" + result.playlist.commentCount + ")";
-      this.list = ["歌曲列表", str, "收藏者"];
-      this.trackIds = result.playlist.trackIds
-      this.playlist = result.playlist
-      this.id = result.playlist.id
-      console.log(this.playlist);
-      // 获取歌曲列表信息
-      for (let i of this.playlist.trackIds) {
-        _getSongsDetail(i.id).then(res => {
-          let song = new songDetail(res.songs)
-          this.tracklist.push(song)
-        })
-      }
-      // 获取评论数据
-      this.getCommentlist()
-
-    })
+    this.getMusicListDetail()
   },
   components: {
     DetailBaseInfo,
@@ -98,6 +112,16 @@ export default {
     TableList,
     CommentList,
     Collector
+  },
+  watch: {
+    '$route' (to, from) {
+      if (from.path === '/home/musiclistdetail') {
+        this.tracklist = []
+        // console.log(to);
+        // console.log(from);
+        this.getMusicListDetail()
+      }
+    }
   }
 }
 </script>

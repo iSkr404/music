@@ -26,7 +26,6 @@ function padLeftZero (str) {
 export function bignumSlice (num) {
   if ((num - 0) > 100000) {
     let sum = num + ''
-    console.log(sum);
     return sum.slice(0, sum.length - 4) + '万'
   }
   return num

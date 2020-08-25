@@ -7,7 +7,8 @@
       </el-header>
       <el-container>
         <!-- 侧边栏 -->
-        <el-aside width="200px" style="overflow-y:hidden;">
+        <!-- style="overflow-y:hidden;" -->
+        <el-aside width="200px">
           <aside-menu> </aside-menu>
         </el-aside>
         <!-- 主体部分 -->
@@ -17,7 +18,7 @@
         </el-main>
       </el-container>
     </el-container>
-
+    <musicplay></musicplay>
   </div>
 </template>
 
@@ -26,11 +27,14 @@
 import asideMenu from './aside/Aside.vue'
 // 头部
 import headerTemp from './header/header'
+// 音乐播放器
+import Musicplay from './centent/musicplay/Musicplay'
 export default {
 
   components: {
     asideMenu,
-    headerTemp
+    headerTemp,
+    Musicplay
   }
 }
 </script>

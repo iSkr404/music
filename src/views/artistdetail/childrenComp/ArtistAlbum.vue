@@ -72,42 +72,53 @@ export default {
         z-index: 2;
       }
     }
-    .sheet::after {
-      content: "";
-      display: inline-block;
-      position: absolute;
-      width: 150px;
-      top: 0;
-      z-index: 0;
-      left: -190px;
-      height: 150px;
-      border-radius: 50%;
-      background-color: #000;
-    }
-    .image::before {
-      content: "";
-      display: inline-block;
-      position: absolute;
-      width: 10px;
-      top: 10px;
-      z-index: 1;
-      right: -10px;
-      height: 50px;
-      background-color: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(0, 0, 0, 0.2);
-    }
     .image::after {
       content: "";
-      display: inline-block;
+      height: 130px;
+      width: 150px;
       position: absolute;
-      width: 10px;
-      top: 80px;
-      z-index: 1;
-      right: -10px;
-      height: 50px;
-      background-color: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(0, 0, 0, 0.2);
+      top: 12px;
+      left: 20px;
+      z-index: 0;
+      background: url("../../../common/img/coverall.png") no-repeat;
+      background-position: 0 -848px;
     }
+    // .sheet::after {
+    //   content: "";
+    //   display: inline-block;
+    //   position: absolute;
+    //   width: 150px;
+    //   top: 0;
+    //   z-index: 0;
+    //   left: -190px;
+    //   height: 150px;
+    //   border-radius: 50%;
+    //   background-color: #000;
+    // }
+    // .image::before {
+    //   content: "";
+    //   display: inline-block;
+    //   position: absolute;
+    //   width: 10px;
+    //   top: 10px;
+    //   z-index: 1;
+    //   right: -10px;
+    //   height: 50px;
+    //   background-color: rgba(255, 255, 255, 0.2);
+    //   border: 1px solid rgba(0, 0, 0, 0.2);
+    // }
+    // .image::after {
+    //   content: "";
+    //   display: inline-block;
+    //   position: absolute;
+    //   width: 10px;
+    //   top: 80px;
+    //   z-index: 1;
+    //   right: -10px;
+    //   height: 50px;
+    //   background-color: rgba(255, 255, 255, 0.2);
+    //   border: 1px solid rgba(0, 0, 0, 0.2);
+    // }
 
     .sheet {
       position: relative;

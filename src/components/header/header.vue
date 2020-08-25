@@ -6,10 +6,12 @@
       <i class="el-icon-arrow-left cursorPointer" @click="backRouter"></i>
     </div>
     <div class="search">
-      <el-input @focus="focusHandle" @blur="blurHandle" size='small' suffix-icon="cursorPointer el-icon-search" placeholder="请输入内容" v-model="searchValue">
+      <el-input ref="searchInput" @focus="focusHandle" @blur="blurHandle" size='small' suffix-icon="cursorPointer el-icon-search" placeholder="请输入内容" v-model="searchValue">
       </el-input>
       <!-- 弹出搜索框 -->
-      <search-box v-if='focusFlag' :searchHotList='searchHotList'></search-box>
+      <search-box v-show='focusFlag' :searchHotList='searchHotList'></search-box>
+
+      <search-suggest v-show="searchSuggest" :suggestList='suggestList'></search-suggest>
     </div>
     <div class="content">
       <div @click="showUserFormDialog" class="login cursorPointer">
@@ -42,7 +44,9 @@
 
 <script>
 import searchBox from './searchBox'
-import { _getSearchHot } from '@/network/discover/discover'
+import SearchSuggest from './SearchSuggest'
+import { _getSearchHot, _getSearchSuggest } from '@/network/discover/discover'
+
 export default {
   data () {
     // 手机号码验证规则
@@ -79,7 +83,13 @@ export default {
       // 输入框的显示隐藏
       focusFlag: false,
       // 热搜数据
-      searchHotList: []
+      searchHotList: [],
+      // 搜索建议框
+      searchSuggest: false,
+      // 定时器需要放置在这里
+      timer: null,
+      // 搜索建议对象 
+      suggestList: {}
     }
   },
   methods: {
@@ -114,11 +124,24 @@ export default {
     },
     // 点击搜索框
     focusHandle () {
-      this.focusFlag = true
+      // 判断内容
+      console.log('dian');
+      if (this.searchValue.trim().length === 0) {
+        this.focusFlag = true
+        this.searchSuggest = false
+      } else {
+        this.searchSuggest = true
+        this.focusFlag = false
+      }
     },
     // 失去焦点
     blurHandle () {
-      this.focusFlag = false
+      // 这里是因为当你要点击里面的内容的时候
+      //  结果失去焦点后如果直接隐藏 那你就点不到了
+      setTimeout(() => {
+        this.focusFlag = false
+        this.searchSuggest = false
+      }, 100);
     },
     // 显示登录用户对话框
     showUserFormDialog () {
@@ -135,13 +158,44 @@ export default {
         // console.log(result);
         this.searchHotList = result.data
       })
+    },
+    // 获取搜索建议
+    getSearchSuggest (keywords) {
+      return new Promise((resolve, reject) => {
+        _getSearchSuggest(keywords).then(res => {
+          this.suggestList = res.result
+          console.log(this.suggestList);
+          resolve()
+        })
+      })
     }
   },
   components: {
-    searchBox
+    searchBox,
+    SearchSuggest
   },
   created () {
     this.getSearchHot()
+  },
+  watch: {
+    searchValue: function (val) {
+      if (val.trim() !== '') {
+        // 不为空
+        clearTimeout(this.timer)
+        this.timer = setTimeout(async () => {
+          console.log('----');
+          await this.getSearchSuggest(val)
+          if (!this.suggestList) return
+          this.focusFlag = false
+          this.searchSuggest = true
+        }, 250);
+      } else {
+        // 内容为空     
+        clearTimeout(this.timer)
+        this.searchSuggest = false
+        this.focusFlag = true
+      }
+    }
   }
 }
 </script>

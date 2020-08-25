@@ -16,7 +16,7 @@
         </div>
       </div>
       <table class="centen" cellpadding='0'>
-        <tr v-for="(item,index) in playlistDetail" :key='item.id'>
+        <tr @click="rowClick(index,playlistDetail)" v-for="(item,index) in playlistDetail" :key='item.id'>
           <td :style="index < 3 ? 'color:red' : ''">{{index + 1}}</td>
           <td>{{item.name}}</td>
           <td>{{item.song.trim()}}</td>
@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     // 获取歌单列表数据
-    async getPlaylistDetail () {
+    getPlaylistDetail () {
       _getMusicListDetail(this.rankId).then((result) => {
         if (result.name && result.name === 'Error') {
           return this.$message.error('请求错误')
@@ -59,7 +59,10 @@ export default {
         // console.log(this.playlistDetail);
         this.timer = result.playlist.updateTime
       })
-
+    },
+    // 点击了某一行
+    rowClick (index, musiclist) {
+      this.$bus.$emit('playMusic', index, musiclist)
     }
   },
   computed: {

@@ -13,7 +13,7 @@
     <div class="title">
       全球榜
     </div>
-    <musiclist :RecommendedSongList='rankList.slice(5)'></musiclist>
+    <musiclist @songListDetails='songListDetails' :RecommendedSongList='rankList.slice(5)'></musiclist>
 
   </div>
 </template>
@@ -36,14 +36,16 @@ export default {
     async getToplist () {
       // const result = await this.$http.get('/toplist/detail')
       _getTopListDetail().then(result => {
-        console.log(result);
+        // console.log(result);
         if (result.name && result.name === 'Error') {
           return this.$message.error('请求错误')
         }
         if (result.code !== 200) return this.$message.error(result.msg)
         this.rankList = result.list
       })
-
+    },
+    songListDetails (id) {
+      this.$router.push({ path: '/home/musiclistdetail', query: { id } })
     }
   },
   created () {

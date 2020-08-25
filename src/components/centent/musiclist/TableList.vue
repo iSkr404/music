@@ -1,19 +1,20 @@
 <template>
   <div class="TableList">
-    <el-table :show-header="hiddenTableHeader" stripe :header-cell-style="{padding:'2px 0',fontSize:'12px'}" :row-style="{padding:'2px 0',fontsize:'12px'}" :cell-style="{padding:'2px 0',fontSize:'12px'}" :data="tracklist" style="width: 100%">
-      <el-table-column type="index">
+    <!-- 这里不知道为什么加类名没有用  只能一条一条加了。 -->
+    <el-table :show-header="hiddenTableHeader" stripe :header-cell-style="{padding:'2px 0',fontSize:'12px'}" :row-style="{padding:'2px 0',fontsize:'12px',backgroundColor:'#f5f5f7'}" :cell-style="{padding:'2px 0',fontSize:'12px',whiteSpace :'nowrap',overflow:'hidden',textOverflow:'ellipsis'}" :row-class-name="tableRowClassName" :data="tracklist" style="width: 100%" @row-click='rowClick'>
+      <el-table-column type="index" v-if='hiddenIndex'>
       </el-table-column>
-      <el-table-column label="操作" width="70px">
+      <el-table-column v-if="hiddenOperation" label="操作" width="70px">
         <template>
           <i class="iconfont">&#xe60a;</i>
           <i class="iconfont">&#xe723;</i>
         </template>
       </el-table-column>
-      <el-table-column label="音乐标题" prop="name">
+      <el-table-column label="音乐标题" prop="name" :show-overflow-tooltip="true">
       </el-table-column>
-      <el-table-column v-if="hiddenSinger" label="歌手" prop="song">
+      <el-table-column v-if="hiddenSinger" label="歌手" prop="song" :show-overflow-tooltip="true">
       </el-table-column>
-      <el-table-column v-if="hiddenAlbum" label="专辑" width="380px" prop="album">
+      <el-table-column v-if="hiddenAlbum" label="专辑" :show-overflow-tooltip="true" width="380px" prop="album">
       </el-table-column>
       <el-table-column label="时长" prop="time" width="70px">
       </el-table-column>
@@ -51,13 +52,45 @@ export default {
       default () {
         return true
       }
+    },
+    hiddenIndex: {
+      type: Boolean,
+      default () {
+        return true
+      }
+    },
+    hiddenOperation: {
+      type: Boolean,
+      default () {
+        return true
+      }
+    },
+    currentIndex: {
+      type: Number
     }
   },
-  created () {
-    // 通过得到的id列表然后请求详情信息
-    // console.log(this.tracklist);
+  updated () {
   },
   methods: {
+    tableRowClassName ({ row, rowIndex }) {
+      //把每一行的索引放进row
+      row.index = rowIndex;
+      // 这里设置的样式不知道为什么不生效，。
+      // if (rowIndex % 2) {
+      //   return 'el-row-gehangbianse'
+      // }
+      // 点击的那一个变色pink
+      if (this.currentIndex == rowIndex) {
+        return 'pink'
+      } else {
+        return ''
+      }
+    },
+    // 点击了某一行
+    rowClick (row, column, event) {
+      // console.log(123);
+      this.$bus.$emit('playMusic', row.index, this.tracklist)
+    },
   }
 }
 </script>
@@ -81,5 +114,8 @@ export default {
       }
     }
   }
+}
+.el-table tr:nth-child(2) {
+  background-color: red;
 }
 </style>

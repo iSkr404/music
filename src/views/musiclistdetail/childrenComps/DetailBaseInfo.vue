@@ -12,7 +12,7 @@
         <span class="timer">{{baseinfolist.createTime | timer}}创建</span>
       </div>
       <div class="btns">
-        <div class="btns_1"><i class="iconfont">&#xe609; </i> 播放全部</div>
+        <div class="btns_1"><i class="iconfont">&#xe609; </i> 播放全部 <i class="iconfont">&#xe522;</i></div>
         <div class="btns_2"><i class="iconfont">&#xe63a; </i> 收藏( {{baseinfolist.subscribedCount}} )</div>
         <div class="btns_3"><i class="iconfont">&#xe65d; </i> 分享( {{baseinfolist.shareCount}} )</div>
         <div class="btns_3"><i class="iconfont">&#xe723; </i> 下载全部</div>
@@ -21,14 +21,15 @@
         标签：<span v-for="(item,index) in baseinfolist.tags" :key="index">{{item }}</span>
       </div>
       <div class="desc">
-        简介： <span v-html="baseinfolist.desc" :class="control =='up'?'overhidden':''" style="white-space: pre-line;"></span>
+        <div>简介：</div> <span v-html="baseinfolist.desc" :class="control =='up'?'overhidden':''" style="white-space: pre-line;"></span>
+        <div class="control iconfont" @click="controlHandle('down')" v-if="control == 'up'">&#xe65b;</div>
+        <div class="control iconfont" @click="controlHandle('up')" v-else>&#xe659;</div>
       </div>
       <div class="numwrap">
         <span>歌曲数<p>{{baseinfolist.trackCount}}</p></span>
         <span>播放数<p>{{baseinfolist.playCount | bignum}}</p></span>
       </div>
-      <div class="control iconfont" @click="controlHandle('down')" v-if="control == 'up'">&#xe65b;</div>
-      <div class="control iconfont" @click="controlHandle('up')" v-else>&#xe659;</div>
+
     </div>
   </div>
 </template>
@@ -123,6 +124,7 @@ export default {
         border: 1px solid #c62f2f;
         background-color: #c62f2f;
         i {
+          margin-left: 5px;
           font-size: 12px;
         }
       }
@@ -146,9 +148,14 @@ export default {
 
     .desc {
       color: #222;
-      width: 400px;
       display: flex;
+      width: 800px;
+      div {
+        overflow: hidden;
+        width: 40px;
+      }
       span {
+        width: 800px;
         display: inline-block;
       }
       .overhidden {

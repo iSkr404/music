@@ -1,5 +1,5 @@
 <template>
-  <div v-infinite-scroll='scrollLoad'>
+  <div v-infinite-scroll='scrollLoad' :infinite-scroll-delay='2000'>
     <ul class="collector" v-if="subscribersList.length">
       <li class="item" v-for="item in subscribersList" :key="item.userId">
         <img :src="item.avatarUrl" alt="">

@@ -1,7 +1,7 @@
 <template>
   <div class="newsongtable">
     <table cellpadding='0'>
-      <tr v-for="(item,index) in musiclist" :key="index">
+      <tr @click="rowClick(index,musiclist)" v-for="(item,index) in musiclist" :key="index">
         <td>{{index+1}}</td>
         <td><img :src="item.pic" alt=""></td>
         <td>{{item.name}}</td>
@@ -14,7 +14,13 @@
 
 <script>
 export default {
-  props: ['musiclist']
+  props: ['musiclist'],
+  methods: {
+    // 点击了某一行
+    rowClick (index, musiclist) {
+      this.$bus.$emit('playMusic', index, musiclist)
+    }
+  }
 }
 </script>
 
@@ -59,7 +65,7 @@ export default {
       }
     }
     tr:nth-child(2n) {
-      background-color: #eee;
+      background-color: #f5f5f7;
     }
   }
 }

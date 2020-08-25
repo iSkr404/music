@@ -99,7 +99,8 @@ module.exports = {
     "space-in-parens": 0,
     //已定义但是没有使用，'scope' is defined but never used
     "vue/no-unused-vars": 0,
-    "vue/no-unused-components": 0
-
+    "vue/no-unused-components": 0,
+    "vue/no-parsing-error": 0,
+    " vue/no-side-effects-in-computed-properties": 0
   }
 }

@@ -87,7 +87,7 @@ export class baseInfo {
   }
 }
 
-// 获取歌单评论信息
+// 获取歌单最新评论信息
 export function _getCommentlist (obj) {
   const result = axios.get('/comment/playlist', {
     params: {
@@ -97,6 +97,16 @@ export function _getCommentlist (obj) {
   return result
 }
 
+
+// 获取歌单最热评论信息
+export function _getHotCommentlist (obj) {
+  const result = axios.get('/comment/hot', {
+    params: {
+      ...obj
+    }
+  })
+  return result
+}
 
 // 获取歌手列表信息
 export function _getArtistlist (obj) {
@@ -193,6 +203,32 @@ export function _SendComments (obj) {
     url: '/comment',
     params: {
       ...obj
+    }
+  })
+}
+
+
+
+// 获取歌曲的mp3
+
+export function _getSongUrl (id) {
+  return axios({
+    url: '/song/url',
+    params: {
+      id
+    }
+  })
+}
+
+
+
+
+// 获取搜索建议
+export function _getSearchSuggest (keywords) {
+  return axios({
+    url: '/search/suggest',
+    params: {
+      keywords
     }
   })
 }

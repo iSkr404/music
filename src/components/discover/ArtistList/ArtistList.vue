@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     scrollLoad () {
-      console.log('到底');
+      // console.log('到底');
       this.getArtistlist()
     },
     areaClick (index) {
@@ -71,7 +71,7 @@ export default {
         limit: this.limit,
         offset: this.offset
       }).then(result => {
-        console.log(result);
+        // console.log(result);
         this.artistlist.push(...result.artists)
         this.offset += 30;
       })

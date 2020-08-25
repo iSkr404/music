@@ -6,8 +6,41 @@
       </div>
       <span class="sub" @click="addCommont">评论</span>
     </div>
+    <div class="title" v-if=" hotCommentList.length">
+      最热评论
+    </div>
+    <ul v-if=" hotCommentList.length">
+      <li class="item" v-for="(item,index) in hotCommentList" :key="index">
+        <div class="image">
+          <img :src="item.user.avatarUrl" alt="">
+        </div>
+        <div class="author">
+          <span class="nickname">{{item.user.nickname}}:</span>
+          <span class="content">{{item.content}}</span>
+          <div class="beReplied" v-if="item.beReplied.length">
+            <ul>
+              <ol v-for="(item2,index2) in item.beReplied" :key="index2">
+                <span class="user">
+                  @{{item2.user.nickname}}
+                </span>
+                <span class="contont">
+                  {{item2.content}}
+                </span>
+              </ol>
+            </ul>
+          </div>
+          <div class="time">{{item.time | timer}}
+            <div class="warp">
+              <span>分享</span>
+              <span>回复</span>
+            </div>
+          </div>
+        </div>
+
+      </li>
+    </ul>
     <div class="title">
-      精彩评论
+      最新评论
     </div>
     <ul>
       <li class="item" v-for="(item,index) in commentlist" :key="index">
@@ -47,7 +80,7 @@ import { formatDate } from '@/common/js/tool'
 import { _SendComments } from '@/network/discover/discover'
 
 export default {
-  props: ['commentlist', 'id'],
+  props: ['commentlist', 'id', 'hotCommentList'],
   data () {
     return {
       content: ''
@@ -100,10 +133,10 @@ export default {
   margin-top: 20px;
   padding: 0 20px;
   .commentBox {
-    margin-bottom: 15px;
+    overflow: hidden;
     box-sizing: border-box;
     padding: 10px;
-    padding-bottom: 35px;
+    padding-bottom: 15px;
     background-color: #f0f0f2;
     textarea {
       resize: none;
@@ -124,6 +157,8 @@ export default {
     }
   }
   .title {
+    overflow: hidden;
+    margin-top: 40px;
     color: #222;
     padding-bottom: 5px;
   }
