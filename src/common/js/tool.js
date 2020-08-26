@@ -30,3 +30,18 @@ export function bignumSlice (num) {
   }
   return num
 }
+// 实现深拷贝
+export function deepClone (newObj, oldObj) {
+  for (var k in oldObj) {
+    var item = oldObj[k];
+    if (item instanceof Array) {
+      newObj[k] = [];
+      deepClone(newObj[k], item)
+    } else if (item instanceof Object) {
+      newObj[k] = {};
+      deepClone(newObj[k], item)
+    } else {
+      newObj[k] = item
+    }
+  }
+}

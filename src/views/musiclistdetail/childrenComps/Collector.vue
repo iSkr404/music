@@ -17,17 +17,21 @@ export default {
     return {
       limit: 20,
       offset: 0,
-      subscribersList: []
+      subscribersList: [],
+      // 判断是否还有
+      flag: true
     }
   },
   methods: {
     // 获取收藏者信息
     getCollector () {
+      if (!this.flag) return
       _getCollector({
         id: this.id,
         limit: this.limit,
         offset: this.offset
       }).then(result => {
+        if (result.subscribers.length === 0) return this.flag = false
         console.log(result);
         this.subscribersList.push(...result.subscribers)
       })

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { _getArtistalbumDesc, _getArtistalbum } from '@/network/discover/discover'
+import { _getArtistalbumDesc, _getArtistalbum, _getArtistTop50 } from '@/network/discover/discover'
 import ArtistBaseInfo from './childrenComp/ArtistBaseInfo'
 import ArtistBtns from './childrenComp/ArtistBtns'
 import ArtistAlbum from './childrenComp/ArtistAlbum'
@@ -35,10 +35,6 @@ export default {
         this.artist = result.artist
       })
     },
-    // 获取热门50首
-    getArtistTop50 () {
-      _getArtistTop50(this.id)
-    },
     // 切换
     artisttoggle (i) {
       this.itemIndex = i
@@ -56,6 +52,15 @@ export default {
     ArtistDesc,
     SimiArtist,
     ArtistBtns
+  },
+  watch: {
+    '$route' (to, from) {
+      if (from.path === '/home/artistalbum') {
+        this.id = this.$route.query.id
+        this.artist = {}
+        this.getArtistalbum()
+      }
+    }
   }
 }
 </script>

@@ -16,7 +16,7 @@
 
     <div class="playlist" v-if="current=='playlist'">
 
-      <table-list :hiddenOperation='false' :hiddenIndex='false' :tracklist='musicList' :hiddenTableHeader='false' :hiddenAlbum='false' :hiddenSinger='true' :currentIndex='currentIndex'></table-list>
+      <table-list @rowClick='rowClick' :hiddenOperation='false' :hiddenIndex='false' :tracklist='musicList' :hiddenTableHeader='false' :hiddenAlbum='false' :hiddenSinger='true' :currentIndex='currentIndex'></table-list>
     </div>
     <div class="historical" v-else>历史记录</div>
   </div>
@@ -40,15 +40,10 @@ export default {
       // 调用父组件的渐变声音
       await this.$parent.musicGradients('down')
       this.$parent.$refs.audio.pause()
-      this.$parent.sliderTimer = 0
-      this.$parent.playList = {
-        src: ""
-      }
-      this.$parent.musicList = []
-      this.$parent.currentTime = '00:00'
-      this.$parent.duration = '00:00'
-      this.$parent.showTop = false
-
+      await this.$parent.resetInfo()
+    },
+    rowClick (index, list) {
+      this.$bus.$emit('playMusic', index, list)
     }
   },
   computed: {

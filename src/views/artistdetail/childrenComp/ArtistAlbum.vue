@@ -49,6 +49,14 @@ export default {
     timer (val) {
       return formatDate(new Date(val), "yy-MM-dd")
     }
+  },
+  watch: {
+    '$route' (to, from) {
+      if (from.path === '/home/artistalbum') {
+        this.id = this.$route.query.id
+        this.getArtistalbum()
+      }
+    }
   }
 }
 </script>

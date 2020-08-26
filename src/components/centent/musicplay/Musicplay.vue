@@ -63,7 +63,7 @@
 <script>
 import { _getSongUrl } from '@/network/discover/discover'
 import { playlistTool } from './playlist'
-import { formatDate } from '@/common/js/tool'
+import { formatDate, deepClone } from '@/common/js/tool'
 import MusicPlayList from './MusicPlayList'
 export default {
   data () {
@@ -192,27 +192,26 @@ export default {
       if (this.musicList.length - 1 == this.currentIndex) {
         // 是否播放完成
         if (!this.$refs.audio.ended) {
-          return
+          // 最后一首播放完成 重置信息
+          return this.resetInfo()
         }
         this.musicStatus = true
         return
       }
       this.currentIndex += 1
-      this.getSongUrl(this.musicList[this.currentIndex].id)
-      this.showTopHandle(this.musicList[this.currentIndex])
+      this.init()
     },
     // 上一首
     preMusic () {
       if (this.currentIndex === 0) return this.$message.info('这是第一首了')
       this.currentIndex -= 1
-      this.getSongUrl(this.musicList[this.currentIndex].id)
-      this.showTopHandle(this.musicList[this.currentIndex])
+      this.init()
     },
     // 播放结束的时候
     musicEnded () {
       this.nextMusic()
     },
-    // 获取歌曲的信息1
+    // 获取歌词的信息
     getSingerInfo (id) {
     },
     // 显示左下角歌曲信息
@@ -229,6 +228,17 @@ export default {
         this.volume = 50
       }
     },
+    // 重置一下播放器信息
+    resetInfo () {
+      this.sliderTimer = 0
+      this.playList = {
+        src: ""
+      }
+      this.musicList = []
+      this.currentTime = '00:00'
+      this.duration = '00:00'
+      this.showTop = false
+    },
     // 播放控制
     init () {
       this.getSongUrl(this.musicList[this.currentIndex].id)
@@ -237,8 +247,11 @@ export default {
   },
   mounted () {
     this.$bus.$on('playMusic', (index, list) => {
+      // 对传递过来的list 克隆一下
+      let cloneList = []
+      deepClone(cloneList, list)
       this.currentIndex = index
-      this.musicList = list
+      this.musicList = cloneList
       this.init()
     })
     // todos: 搜索一首歌的时候 播放是把这歌插入到当前播放列表的中 位置是当前播放的位置
@@ -261,7 +274,6 @@ export default {
         this.init()
       }
     })
-    // todos: 播放列表的信息就是this.musicList 的信息 歌名歌手 时间
   },
   beforeDestroy () {
     this.$bus.$off('playMusic')

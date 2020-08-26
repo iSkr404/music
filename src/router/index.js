@@ -8,6 +8,8 @@ import Allmv from '../components/allmv/Allmv.vue'
 import Musiclistdetail from '@/views/musiclistdetail/Musiclistdetail'
 // 歌手详情
 import ArtistDetail from '@/views/artistdetail/ArtistDetail'
+// 搜索结果
+import SearchList from '@/views/searchdetail/SearchList'
 Vue.use(VueRouter)
 
 const routes = [
@@ -19,7 +21,8 @@ const routes = [
       { path: '/home/discover', component: Discover },
       { path: '/home/allmv', component: Allmv },
       { path: '/home/musiclistdetail', component: Musiclistdetail },
-      { path: '/home/artistalbum', component: ArtistDetail }
+      { path: '/home/artistalbum', component: ArtistDetail },
+      { path: '/home/searchlist', component: SearchList }
     ]
   }
 

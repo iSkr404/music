@@ -3,7 +3,7 @@
     <!-- 这个是歌单的详情页面 -->
     <detail-base-info :baseinfolist='baseinfolist'></detail-base-info>
     <detail-btns @toggleList='toggleList' :list='list'></detail-btns>
-    <table-list :tracklist='tracklist' v-if="activeName == 0"></table-list>
+    <table-list @rowClick='rowClick' :tracklist='tracklist' v-if="activeName == 0"></table-list>
     <comment-list @scrollLoad='scrollLoad' :id="id" :hotCommentList='hotCommentList' :commentlist='commentlist' v-else-if="activeName == 1"></comment-list>
     <collector v-else :id='id'></collector>
   </div>
@@ -22,7 +22,6 @@ import TableList from '@/components/centent/musiclist/TableList'
 import CommentList from './childrenComps/CommentList'
 // 歌单收藏者
 import Collector from './childrenComps/Collector'
-
 export default {
   data () {
     return {
@@ -100,6 +99,9 @@ export default {
         // 获取评论数据
         this.getCommentlist()
       })
+    },
+    rowClick (index, list) {
+      this.$bus.$emit('playMusic', index, list)
     }
   },
   mounted () {

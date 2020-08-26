@@ -22,7 +22,8 @@
   </div>
 </template>
 
-<script>
+<script> 
+
 export default {
   data () {
     return {
@@ -69,8 +70,6 @@ export default {
       type: Number
     }
   },
-  updated () {
-  },
   methods: {
     tableRowClassName ({ row, rowIndex }) {
       //把每一行的索引放进row
@@ -87,9 +86,11 @@ export default {
       }
     },
     // 点击了某一行
-    rowClick (row, column, event) {
+    rowClick (row) {
       // console.log(123);
-      this.$bus.$emit('playMusic', row.index, this.tracklist)
+      // 交给父组件处理
+      this.$emit('rowClick', row.index, this.tracklist)
+      // this.$bus.$emit('playMusic', row.index, this.tracklist)
     },
   }
 }

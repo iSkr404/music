@@ -39,7 +39,7 @@
 
       </li>
     </ul>
-    <div class="title">
+    <div class="title" v-if=" commentlist.length">
       最新评论
     </div>
     <ul>
@@ -50,17 +50,19 @@
         <div class="author">
           <span class="nickname">{{item.user.nickname}}:</span>
           <span class="content">{{item.content}}</span>
-          <div class="beReplied" v-if="item.beReplied.length">
-            <ul>
-              <ol v-for="(item2,index2) in item.beReplied" :key="index2">
-                <span class="user">
-                  @{{item2.user.nickname}}
-                </span>
-                <span class="contont">
-                  {{item2.content}}
-                </span>
-              </ol>
-            </ul>
+          <div v-if=" item.beReplied   ">
+            <div class="beReplied" v-if="item.beReplied.length">
+              <ul>
+                <ol v-for="(item2,index2) in item.beReplied" :key="index2">
+                  <span class="user">
+                    @{{item2.user.nickname}}
+                  </span>
+                  <span class="contont">
+                    {{item2.content}}
+                  </span>
+                </ol>
+              </ul>
+            </div>
           </div>
           <div class="time">{{item.time | timer}}
             <div class="warp">
@@ -69,7 +71,6 @@
             </div>
           </div>
         </div>
-
       </li>
     </ul>
   </div>
@@ -80,7 +81,26 @@ import { formatDate } from '@/common/js/tool'
 import { _SendComments } from '@/network/discover/discover'
 
 export default {
-  props: ['commentlist', 'id', 'hotCommentList'],
+  props: {
+    commentlist: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
+    id: {
+      type: String,
+      default: function () {
+        return ''
+      }
+    },
+    hotCommentList: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    }
+  },
   data () {
     return {
       content: ''
@@ -88,7 +108,7 @@ export default {
   },
   methods: {
     scrollLoad () {
-      console.log('到底了');
+      // console.log('到底了');
       this.$emit('scrollLoad')
     },
     addCommont () {
@@ -112,6 +132,7 @@ export default {
       }).then(result => {
         this.$message.success('评论成功')
         this.content = ''
+        this.commentlist.unshift(result.comment)
       }).catch(err => {
         return this.$message.error('评论失败')
       })

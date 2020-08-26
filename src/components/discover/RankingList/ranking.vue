@@ -46,9 +46,6 @@ export default {
     // 获取歌单列表数据
     getPlaylistDetail () {
       _getMusicListDetail(this.rankId).then((result) => {
-        if (result.name && result.name === 'Error') {
-          return this.$message.error('请求错误')
-        }
         if (result.code !== 200) return this.$message.error(result.msg)
         for (let i of result.playlist.tracks.splice(0, 8)) {
           _getSongsDetail(i.id).then(res => {
@@ -71,6 +68,7 @@ export default {
       return titleclone.substr(3).split('')
     },
     time () {
+
       return formatDate(new Date(this.timer), "MM月dd日");
     }
   }

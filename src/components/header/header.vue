@@ -11,7 +11,7 @@
       <!-- 弹出搜索框 -->
       <search-box v-show='focusFlag' :searchHotList='searchHotList'></search-box>
 
-      <search-suggest v-show="searchSuggest" :suggestList='suggestList'></search-suggest>
+      <search-suggest :content='searchValue' v-show="searchSuggest" :suggestList='suggestList'></search-suggest>
     </div>
     <div class="content">
       <div @click="showUserFormDialog" class="login cursorPointer">
@@ -120,7 +120,7 @@ export default {
     // 后退
     backRouter () {
       this.$router.go(-1)
-      console.log(this.$route.path);
+      // console.log(this.$route.path);
     },
     // 点击搜索框
     focusHandle () {
@@ -155,7 +155,7 @@ export default {
     // 获取热搜数据
     getSearchHot () {
       _getSearchHot().then(result => {
-        // console.log(result);
+        console.log(result);
         this.searchHotList = result.data
       })
     },
@@ -183,7 +183,6 @@ export default {
         // 不为空
         clearTimeout(this.timer)
         this.timer = setTimeout(async () => {
-          console.log('----');
           await this.getSearchSuggest(val)
           if (!this.suggestList) return
           this.focusFlag = false

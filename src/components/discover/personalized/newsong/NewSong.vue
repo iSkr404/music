@@ -1,13 +1,13 @@
 <template>
   <div class="NewSong">
     <ul>
-      <li v-for="(item,index) in newsonglist" :key="item.id">
+      <li v-for="(item,index) in newsonglist" @click="rowClick(index)" :key="item.id">
         <div class="number">{{index +1}}</div>
-        <img :src="item.picUrl" alt="">
+        <img :src="item.pic" alt="">
         <div class="desc">
-          <p>{{item.name}} ({{item.song.alias[0]}})</p>
+          <p>{{item.name}}</p>
           <div class="author">
-            <p>{{item.song.album.artists[0].name}}</p>
+            <p>{{item.song }}</p>
           </div>
         </div>
       </li>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { _getPersonalizedNewsong, _getSongsDetail, songDetail } from '@/network/discover/discover'
 export default {
   data () {
     return {
@@ -23,15 +24,22 @@ export default {
     }
   },
   methods: {
-    async getNewsongList () {
-      const result = await this.$http.get('/personalized/newsong')
-      if (result.name && result.name === 'Error') {
-        return this.$message.error('请求错误')
-      }
-      if (result.code !== 200) return this.$message.error(result.msg)
-      this.newsonglist = result.result
-      // console.log(result);
-    }
+    getNewsongList () {
+      _getPersonalizedNewsong().then(res => {
+        for (let i of res.result) {
+          _getSongsDetail(i.id).then(result => {
+            let song = new songDetail(result.songs)
+            this.newsonglist.push(song)
+          })
+        }
+      })
+    },
+    // 点击了li
+    rowClick (index) {
+      // console.log(123);
+      this.$bus.$emit('playMusic', index, this.newsonglist)
+    },
+
   },
   created () {
     this.getNewsongList()
@@ -55,7 +63,6 @@ export default {
       padding: 10px;
       flex: 50%;
       display: flex;
-
       img {
         display: block;
         width: 42px;

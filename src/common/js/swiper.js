@@ -1,5 +1,7 @@
 export function _Swiper (curUl, curOl) {
   var timer = null
+  if (!curOl) return
+  if (!curUl) return
   const btns = [...curOl.querySelectorAll('li')]
   const sz = [...curUl.querySelectorAll('li')]
   const next = curUl.querySelector('.next')

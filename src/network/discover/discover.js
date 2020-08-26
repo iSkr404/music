@@ -232,3 +232,23 @@ export function _getSearchSuggest (keywords) {
     }
   })
 }
+
+// 获取搜索内容
+export function _getSearchList (keywords, type) {
+  return axios({
+    url: '/search',
+    params: {
+      keywords,
+      type
+    }
+  })
+}
+
+
+// 推荐新音乐
+export function _getPersonalizedNewsong () {
+  return axios({
+    url: '/personalized/newsong'
+  })
+}
+

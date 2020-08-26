@@ -40,6 +40,9 @@ export default {
   },
   mounted () {
     this.getBanners()
+  },
+  beforeDestroy () {
+    _Swiper()
   }
 }
 </script>

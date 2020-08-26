@@ -5,7 +5,7 @@
       <div class="title">热搜榜</div>
       <div class="tablelist">
         <table cellpadding='0'>
-          <tr v-for="(item,index) in searchHotList" :key="index">
+          <tr @click="search(item.searchWord)" v-for="(item,index) in searchHotList" :key="index">
             <td class="index">{{index+1}}</td>
             <td>
               <div>
@@ -28,6 +28,17 @@ export default {
   props: {
     searchHotList: {
       type: Array
+    }
+  },
+  methods: {
+    // 点击搜索
+    search (keywords) {
+      this.$router.push({
+        path: '/home/searchlist',
+        query: {
+          content: keywords
+        }
+      })
     }
   }
 }

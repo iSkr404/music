@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table-list :tracklist='tracklist' :hiddenTableHeader='false' :hiddenSinger='false' :hiddenAlbum='false'></table-list>
+    <table-list @rowClick='rowClick' :tracklist='tracklist' :hiddenTableHeader='false' :hiddenSinger='false' :hiddenAlbum='false'></table-list>
   </div>
 </template>
 
@@ -28,6 +28,9 @@ export default {
         }
         // console.log(this.tracklist);
       })
+    },
+    rowClick (index, list) {
+      this.$bus.$emit('playMusic', index, list)
     }
   },
   mounted () {
