@@ -14,44 +14,34 @@ export function _Swiper (curUl, curOl) {
   const len = sz.length - 1
   reset()
   syncBtns()
-  let flag = true
   // 下一张其实就是把第一张放到最后、
   function getNext () {
-    if (flag) {
-      flag = false
-      const giveUp = sz.shift()
-      sz.push(giveUp)
-      // 重置一下
-      for (let i = 0; i < sz.length; i++) {
-        sz[i].style.zIndex = i
-        sz[i].style.transform = 'scale(1)'
-        sz[i].style.filter = 'contrast(50%)'
-      }
-      reset()
-      syncBtns()
-      setTimeout(() => {
-        flag = true
-      }, 180);
+
+    const giveUp = sz.shift()
+    sz.push(giveUp)
+    // 重置一下
+    for (let i = 0; i < sz.length; i++) {
+      sz[i].style.zIndex = i
+      sz[i].style.transform = 'scale(1)'
+      sz[i].style.filter = 'contrast(50%)'
     }
+    reset()
+    syncBtns()
+
   }
   function getPre () {
 
-    if (flag) {
-      flag = false
-      const giveUp = sz.pop()
-      sz.unshift(giveUp)
-      // 重置一下
-      for (let i = 0; i < sz.length; i++) {
-        sz[i].style.zIndex = i
-        sz[i].style.transform = 'scale(1)'
-        sz[i].style.filter = 'contrast(50%)'
-      }
-      reset()
-      syncBtns()
-      setTimeout(() => {
-        flag = true
-      }, 180);
+    const giveUp = sz.pop()
+    sz.unshift(giveUp)
+    // 重置一下
+    for (let i = 0; i < sz.length; i++) {
+      sz[i].style.zIndex = i
+      sz[i].style.transform = 'scale(1)'
+      sz[i].style.filter = 'contrast(50%)'
     }
+    reset()
+    syncBtns()
+
 
   }
   function reset () {
@@ -123,9 +113,6 @@ export function _Swiper (curUl, curOl) {
           getNext()
         }
       }
-      timer = setInterval(() => {
-        getNext()
-      }, 3000)
     })
   }
   // 自动播放

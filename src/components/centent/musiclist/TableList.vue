@@ -1,5 +1,5 @@
 <template>
-  <div class="TableList">
+  <div class="TableList" :infinite-scroll-immediate='false' v-infinite-scroll='tableScroll'>
     <!-- 这里不知道为什么加类名没有用  只能一条一条加了。 -->
     <el-table :show-header="hiddenTableHeader" stripe :header-cell-style="{padding:'2px 0',fontSize:'12px'}" :row-style="{padding:'2px 0',fontsize:'12px',backgroundColor:'#f5f5f7'}" :cell-style="{padding:'2px 0',fontSize:'12px',whiteSpace :'nowrap',overflow:'hidden',textOverflow:'ellipsis'}" :row-class-name="tableRowClassName" :data="tracklist" style="width: 100%" @row-click='rowClick'>
       <el-table-column type="index" v-if='hiddenIndex'>
@@ -92,6 +92,10 @@ export default {
       this.$emit('rowClick', row.index, this.tracklist)
       // this.$bus.$emit('playMusic', row.index, this.tracklist)
     },
+    // 到底
+    tableScroll () {
+      this.$emit('tableScroll')
+    }
   }
 }
 </script>

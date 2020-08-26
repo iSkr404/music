@@ -199,8 +199,9 @@ export default {
 }
 </script>
 
-<style lang='less' >
+<style lang='less'>
 .header {
+  // z-index: 150;
   box-sizing: border-box;
   padding: 0 10px;
   width: 100%;

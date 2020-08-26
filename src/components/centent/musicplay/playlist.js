@@ -1,8 +1,9 @@
 // import { construct } from "core-js/fn/reflect"
 
 export class playlistTool {
-  constructor(url) {
+  constructor(song) {
     // this.index = index,
-    this.src = url
+    this.src = song.url
+    this.songId = song.id
   }
 }

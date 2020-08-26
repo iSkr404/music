@@ -89,15 +89,21 @@ export default {
       }
     },
     id: {
-      type: String,
+      type: Number,
       default: function () {
-        return ''
+        return 0
       }
     },
     hotCommentList: {
       type: Array,
       default: function () {
         return []
+      }
+    },
+    commentType: {
+      type: Number,
+      default: function () {
+        return 2
       }
     }
   },
@@ -124,7 +130,7 @@ export default {
         return this.$message.error('不能超过140字')
       }
       _SendComments({
-        type: 2,
+        type: this.commentType,
         t: 1,
         id: this.id,
         content: this.content,
@@ -137,9 +143,6 @@ export default {
         return this.$message.error('评论失败')
       })
     }
-  },
-  created () {
-    console.log(this.commentlist);
   },
   filters: {
     timer (value) {
@@ -163,7 +166,7 @@ export default {
       resize: none;
       outline: none;
       padding: 5px;
-      width: 1110px;
+      width: 98%;
       // width: 100% - 20px;
       height: 50px;
       max-height: 60px;

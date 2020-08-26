@@ -3,7 +3,7 @@
     <!-- 这个是歌单的详情页面 -->
     <detail-base-info :baseinfolist='baseinfolist'></detail-base-info>
     <detail-btns @toggleList='toggleList' :list='list'></detail-btns>
-    <table-list @rowClick='rowClick' :tracklist='tracklist' v-if="activeName == 0"></table-list>
+    <table-list @tableScroll='tableScroll' @rowClick='rowClick' :tracklist='tracklist' v-if="activeName == 0"></table-list>
     <comment-list @scrollLoad='scrollLoad' :id="id" :hotCommentList='hotCommentList' :commentlist='commentlist' v-else-if="activeName == 1"></comment-list>
     <collector v-else :id='id'></collector>
   </div>
@@ -34,6 +34,8 @@ export default {
       activeName: 0,
       // 歌曲列表
       tracklist: [],
+      // 剩下的歌曲列表
+      leftList: [],
       // 歌单id
       id: '',
       limit: 10,
@@ -71,12 +73,16 @@ export default {
     },
     getHotCommentlist () {
       // 获取最热评论信息
-      _getHotCommentlist({ id: this.id, type: 2 }).then(result => {
+      _getHotCommentlist({ id: this.id, type: 2, limit: 15 }).then(result => {
         // console.log(result);
         this.hotCommentList.push(...result.hotComments)
       })
     },
     getMusicListDetail () {
+      // 如果这个歌单很多 会很卡 接口没有提供分页的功能
+      // todos: 想到一个思路  是如果大于两百条就截取 只请求前两百条数据 
+      // 如果表格到底 v-infinite-scroll  通过这个事件来告诉父组件
+      // 吧我们刚刚截取的数组剩下的去发请求
       _getMusicListDetail(this.$route.query.id).then(result => {
         if (result.name && result.name === 'Error') {
           return this.$message.error('请求错误')
@@ -88,8 +94,12 @@ export default {
         this.trackIds = result.playlist.trackIds
         this.playlist = result.playlist
         this.id = result.playlist.id
-        // console.log(this.playlist);
         // 获取歌曲列表信息
+        if (this.playlist.trackIds.length > 200) {
+          // splice这个是会影响原数组的  返回了删除后的值
+          // 通过返回的值存储下来 下次用这个来发请求
+          this.leftList = this.playlist.trackIds.splice(200) //删除了200后面的
+        }
         for (let i of this.playlist.trackIds) {
           _getSongsDetail(i.id).then(res => {
             let song = new songDetail(res.songs)
@@ -102,6 +112,16 @@ export default {
     },
     rowClick (index, list) {
       this.$bus.$emit('playMusic', index, list)
+    },
+    tableScroll () {
+      if (this.leftList === []) return this.$message.info('没有更多了')
+      for (let i of this.leftList) {
+        _getSongsDetail(i.id).then(res => {
+          let song = new songDetail(res.songs)
+          this.tracklist.push(song)
+        })
+      }
+      this.leftList = []
     }
   },
   mounted () {

@@ -41,6 +41,7 @@ export default {
 
 <style lang='less'>
 .el-header {
+  z-index: 150;
   padding: 0 !important;
 }
 .el-main {

@@ -8,7 +8,9 @@ export default new Vuex.Store({
     user: {},
     cookie: '',
     uId: '',
-    songList: []
+    songList: [],
+    showLyric: false,
+    songDetail: {}
   },
   mutations: {
     addUser (store, obj) {
@@ -18,6 +20,12 @@ export default new Vuex.Store({
       _getUserSongList(store.uId).then(result => {
         store.songList = result.playlist
       })
+    },
+    editshowLyric (store, type) {
+      store.showLyric = type
+    },
+    editSongDetai (store, obj) {
+      store.songDetail = obj
     }
   }
 })

@@ -7,6 +7,9 @@ body,
   min-width: 1280px;
   /* overflow-y:hidden; */
 }
+img {
+  -webkit-user-drag: none;
+}
 *{
   -webkit-touch-callout:none; /*系统默认菜单被禁用*/
   -webkit-user-select:none; /*webkit浏览器*/
@@ -125,3 +128,6 @@ header {
 .el-slider__button {
   cursor: pointer !important;
 }
+.el-drawer__wrapper{ 
+  z-index: 149 !important;
+}  

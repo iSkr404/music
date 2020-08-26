@@ -16,10 +16,12 @@ import {
   Table,
   TableColumn,
   Slider,
+  Drawer,
   Tooltip
 } from 'element-ui'
 import infiniteScroll from "vue-infinite-scroll";
 Vue.use(infiniteScroll)
+Vue.use(Drawer)
 Vue.use(Tooltip)
 Vue.use(TabPane)
 Vue.use(Slider)

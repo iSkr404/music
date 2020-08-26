@@ -4,6 +4,7 @@
       <div class="play-top" v-show="showTop">
         <div class="image">
           <img :src="userinfo.pic" alt="">
+          <i class="iconfont imageIconfont" @click="showLyricBox">&#xe625;</i>
         </div>
         <div class="userinfo">
           <div class="info">
@@ -57,14 +58,18 @@
     <transition name="Musicplaylist">
       <music-play-list v-show="isShowMusicplaylist" :currentIndex='currentIndex' :musicList='musicList'></music-play-list>
     </transition>
+
+    <music-lyric></music-lyric>
   </div>
 </template>
 
 <script>
-import { _getSongUrl } from '@/network/discover/discover'
+import { _getSongUrl, _getLyric } from '@/network/discover/discover'
 import { playlistTool } from './playlist'
 import { formatDate, deepClone } from '@/common/js/tool'
 import MusicPlayList from './MusicPlayList'
+// 歌词
+import MusicLyric from './MusicLyric'
 export default {
   data () {
     return {
@@ -153,19 +158,27 @@ export default {
     // 根据获取到的数据 发起获取URL请求 然后对返回值过滤 添加到播放中
     getSongUrl (id) {
       _getSongUrl(id).then(result => {
-        // console.log(result);
-        const res = new playlistTool(result.data[0].url)
+        const res = new playlistTool(result.data[0])
         if (!res.src) {
           this.nextMusic()
           return this.$message.info('需要付费或其他原因')
         }
         if (res.src == this.playList.src) {
+          // 再判断如果相同 那是不是结束了
+          if (this.$refs.audio.ended) {
+            // 重新播放
+            return this.musicLoad()
+          }
           return this.$message.info('正在播放中')
         }
         this.playList = res
+        // console.log(res);
+        // 放在这里只有歌真正变化了再去修改
+        this.$store.commit('editSongDetai', this.musicList[this.currentIndex])
         this.musicStatus = false
-        // this.musicPlay() 
+
       })
+
     },
     // 歌曲时间信息  
     timeupdate () {
@@ -188,15 +201,18 @@ export default {
     // 下一首
     nextMusic () {
       // console.log('next');
-      // 是不是最后一首
+      // 是不是最后一首 
       if (this.musicList.length - 1 == this.currentIndex) {
+        // 判断数组中是否还有歌 如果有 就跳到第一首 这个就是列表循环播放   我实现不了。。 
         // 是否播放完成
-        if (!this.$refs.audio.ended) {
-          // 最后一首播放完成 重置信息
-          return this.resetInfo()
+        if (this.$refs.audio.ended) {
+          // 播放完成又点击 重新播放
+          return this.musicLoad()
+        } else {
+          return
         }
         this.musicStatus = true
-        return
+        return this.$message.info('正在播放中')
       }
       this.currentIndex += 1
       this.init()
@@ -209,10 +225,12 @@ export default {
     },
     // 播放结束的时候
     musicEnded () {
+      // 最后一首就不自动播放了
+      if (this.musicList.length - 1 == this.currentIndex) {
+        // 那就吧左下角隐藏
+        return this.showTop = false
+      }
       this.nextMusic()
-    },
-    // 获取歌词的信息
-    getSingerInfo (id) {
     },
     // 显示左下角歌曲信息
     showTopHandle (info) {
@@ -243,6 +261,10 @@ export default {
     init () {
       this.getSongUrl(this.musicList[this.currentIndex].id)
       this.showTopHandle(this.musicList[this.currentIndex])
+    },
+    // 显示歌词面板
+    showLyricBox () {
+      this.$store.commit('editshowLyric', true)
     }
   },
   mounted () {
@@ -276,7 +298,9 @@ export default {
     })
   },
   beforeDestroy () {
-    this.$bus.$off('playMusic')
+    // 貌似这个组件会一直存在。。。
+    // this.$bus.$off('playMusic')
+    // this.$bus.$off('pushPlayMusic')
   },
   watch: {
     // 监听音量
@@ -295,10 +319,21 @@ export default {
       } else {
         this.sliderDisabled = false
       }
+    },
+    // 当state中的数据发生变化 就代表歌词面板变化 左下角反着来
+    showLyric: function (val) {
+      this.showTop = !val
     }
   },
   components: {
-    MusicPlayList
+    MusicPlayList,
+    MusicLyric
+  },
+  computed: {
+    // 变成计算属性
+    showLyric () {
+      return this.$store.state.showLyric
+    }
   }
 }
 </script>
@@ -334,11 +369,28 @@ i {
     display: flex;
     align-items: center;
     .image {
+      position: relative;
       width: 45px;
       height: 45px;
       img {
         width: 100%;
         height: 100%;
+      }
+      .imageIconfont {
+        display: none;
+        position: absolute;
+        left: 0;
+        width: 45px;
+        color: #fff;
+        text-align: center;
+        height: 45px;
+        font-size: 30px;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+    }
+    .image:hover {
+      .imageIconfont {
+        display: inline-block;
       }
     }
     .userinfo {
