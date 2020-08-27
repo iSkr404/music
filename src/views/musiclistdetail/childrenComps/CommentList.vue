@@ -78,7 +78,7 @@
 
 <script>
 import { formatDate } from '@/common/js/tool'
-import { _SendComments } from '@/network/discover/discover'
+import { _SendComments } from '@/network/song'
 
 export default {
   props: {

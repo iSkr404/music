@@ -17,3 +17,12 @@ export function _getUserSongList (uid) {
     }
   })
 }
+
+// 用户登录
+export function _userLogin (obj) {
+  return axios.get('/login/cellphone', {
+    params: {
+      ...obj
+    }
+  })
+}

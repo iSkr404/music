@@ -13,6 +13,7 @@
 <script>
 // 列表组件
 import Musiclist from '@/components/centent/musiclist/Musiclist'
+import { _getHotPlaylist, _getTopHighquality } from '@/network/discover/discover'
 export default {
   data () {
     return {
@@ -24,15 +25,12 @@ export default {
     }
   },
   methods: {
-    async getHotPlaylist () {
-      const result = await this.$http.get('/playlist/hot')
-      if (result.name && result.name === 'Error') {
-        return this.$message.error('请求错误')
-      }
-      if (result.code !== 200) return this.$message.error(result.msg)
-      // console.log(result);
-      this.tags = result.tags
-      this.getMusicList()
+    getHotPlaylist () {
+      _getHotPlaylist().then(result => {
+        this.tags = result.tags
+        console.log(result);
+        this.getMusicList()
+      })
     },
     // 点击tag后修改并换list
     tagClick (index) {
@@ -40,20 +38,14 @@ export default {
       this.getMusicList()
     },
     // 获取对应标签的list
-    async getMusicList () {
-      const result = await this.$http.get('/top/playlist/highquality', {
-        params: {
-          cat: this.tags[this.currentIndex].name,
-          limit: this.limit,
-          time: new Date().getTime()
-        }
+    getMusicList () {
+      _getTopHighquality({
+        cat: this.tags[this.currentIndex].name,
+        limit: this.limit,
+        time: new Date().getTime()
+      }).then(result => {
+        this.musicList = result.playlists
       })
-      if (result.name && result.name === 'Error') {
-        return this.$message.error('请求错误')
-      }
-      if (result.code !== 200) return this.$message.error(result.msg)
-      // console.log(result);
-      this.musicList = result.playlists
     },
     songListDetails (id) {
       this.$router.push({ path: '/home/musiclistdetail', query: { id } })

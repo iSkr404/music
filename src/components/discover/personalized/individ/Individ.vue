@@ -18,6 +18,7 @@
 <script>
 // 轮播图组件
 import { _Swiper } from '../../../../common/js/swiper'
+import { _getBanner } from '@/network/discover/discover'
 export default {
   data () {
     return {
@@ -26,15 +27,11 @@ export default {
   },
   methods: {
     async getBanners () {
-      const result = await this.$http.get('/banner').catch(err => err)
-      // console.log(result)
-      if (result.name && result.name === 'Error') {
-        return this.$message.error('请求错误')
-      }
-      if (result.code !== 200) return this.$message.error(result.msg)
-      this.banners = result.banners
-      this.$nextTick(() => {
-        _Swiper(this.$refs.swiper, this.$refs.swiperOl)
+      _getBanner().then(result => {
+        this.banners = result.banners
+        this.$nextTick(() => {
+          _Swiper(this.$refs.swiper, this.$refs.swiperOl)
+        })
       })
     }
   },

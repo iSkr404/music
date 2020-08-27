@@ -34,7 +34,6 @@ export default {
   methods: {
     // 获取榜单列表
     async getToplist () {
-      // const result = await this.$http.get('/toplist/detail')
       _getTopListDetail().then(result => {
         // console.log(result);
         if (result.name && result.name === 'Error') {

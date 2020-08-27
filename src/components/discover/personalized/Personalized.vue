@@ -1,7 +1,7 @@
 <template>
   <div class="Personalized">
     <discover-individ></discover-individ>
-    <div class="title">
+    <div class="title" v-if='RecommendedSongList.length'>
       推荐歌单
     </div>
     <musiclist :RecommendedSongList='RecommendedSongList' @songListDetails='songListDetails'></musiclist>

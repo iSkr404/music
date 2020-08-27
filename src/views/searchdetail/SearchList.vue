@@ -8,7 +8,8 @@
 </template>
 
 <script>
-import { _getSearchList, _getSongsDetail, songDetail } from '@/network/discover/discover'
+import { _getSongsDetail, songDetail } from '@/network/discover/discover'
+import { _getSearchList } from '@/network/search'
 import TableList from '@/components/centent/musiclist/TableList'
 export default {
   data () {

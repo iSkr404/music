@@ -41,9 +41,6 @@ export default {
       _getTopSongs(this.activeName - 0).then(result => {
         // console.log(result.data);
         let list = result.data.slice(this.offset, this.page * 30)
-        // console.log(list);
-        // console.log(this.offset + '---' + this.page * 30);
-        // let list = result.data
         for (let i of list) {
           _getSongsDetail(i.id).then(res => {
             let song = new songDetail(res.songs)
@@ -54,7 +51,6 @@ export default {
         this.offset = this.page * 30;
         this.page++;
       })
-      // console.log(this.musiclist);
     },
     scrollLoad () {
       console.log('到底');

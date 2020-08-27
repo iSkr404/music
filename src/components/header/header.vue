@@ -45,8 +45,8 @@
 <script>
 import searchBox from './searchBox'
 import SearchSuggest from './SearchSuggest'
-import { _getSearchHot, _getSearchSuggest } from '@/network/discover/discover'
-
+import { _getSearchHot, _getSearchSuggest } from '@/network/search'
+import { _userLogin } from '@/network/user'
 export default {
   data () {
     // 手机号码验证规则
@@ -101,7 +101,7 @@ export default {
     userLogin () {
       this.$refs.userFormRef.validate(async item => {
         if (!item) return
-        const result = await this.$http.post('/login/cellphone', {
+        _userLogin({
           phone: this.userForm.phone,
           password: this.userForm.password
         }).catch(err => err)
@@ -125,7 +125,7 @@ export default {
     // 点击搜索框
     focusHandle () {
       // 判断内容
-      console.log('dian');
+      // console.log('dian');
       if (this.searchValue.trim().length === 0) {
         this.focusFlag = true
         this.searchSuggest = false

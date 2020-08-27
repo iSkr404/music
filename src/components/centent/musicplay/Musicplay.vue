@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { _getSongUrl, _getLyric } from '@/network/discover/discover'
+import { _getSongUrl, _getLyric } from '@/network/song'
 import { playlistTool } from './playlist'
 import { formatDate, deepClone } from '@/common/js/tool'
 import MusicPlayList from './MusicPlayList'

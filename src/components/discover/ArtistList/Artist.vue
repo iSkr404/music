@@ -2,7 +2,7 @@
   <div class="Artist">
     <div class="musiclist">
       <ul>
-        <li @click="artistClick(item.id)" v-for="(item,index) in artistlist" :key='item.id'>
+        <li @click="artistClick(item.id)" v-for="(item) in artistlist" :key='item.id'>
           <img :src="item.img1v1Url ?item.img1v1Url :item.picUrl" alt="">
           <p>{{item.name}}</p>
         </li>

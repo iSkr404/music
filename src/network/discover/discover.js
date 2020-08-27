@@ -3,6 +3,73 @@ import axios from 'axios'
 import { formatDate } from '@/common/js/tool.js'
 // discover
 
+// 发现音乐页面start--------------------
+// 获取榜单列表
+export function _getTopListDetail () {
+  const result = axios.get('/toplist/detail')
+  return result
+}
+
+
+
+/**最新歌曲 */
+export function _getTopSongs (type) {
+  return axios({
+    url: '/top/song',
+    params: {
+      type: type
+    }
+  })
+}
+
+
+// 推荐新音乐
+export function _getPersonalizedNewsong () {
+  return axios({
+    url: '/personalized/newsong'
+  })
+}
+
+// 获取独家放送列表
+export function _getExclusiveBroadcastList (limit) {
+  return axios({
+    url: '/personalized/privatecontent/list',
+    params: {
+      limit
+    }
+  })
+}
+
+
+// 轮播图
+export function _getBanner () {
+  return axios({
+    url: '/banner'
+  })
+}
+
+
+// 热门歌单分类
+export function _getHotPlaylist () {
+  return axios({
+    url: '/playlist/hot'
+  })
+}
+
+// 获取精品歌单
+export function _getTopHighquality (obj) {
+  const result = axios.get('/top/playlist/highquality', {
+    params: {
+      ...obj
+    }
+  })
+  return result
+}
+
+
+// 页面的路由end------------------
+
+// 歌单start-------------------
 // 获取推荐歌单列表
 export function _getRecommendedSongList (limit) {
   const result = axios.get('/personalized', {
@@ -13,18 +80,6 @@ export function _getRecommendedSongList (limit) {
   return result
 }
 
-// 获取热搜列表
-export function _getSearchHot () {
-  const result = axios.get('/search/hot/detail')
-  return result
-}
-
-
-// 获取榜单列表
-export function _getTopListDetail () {
-  const result = axios.get('/toplist/detail')
-  return result
-}
 
 // 获取歌单详情信息
 export function _getMusicListDetail (id) {
@@ -108,27 +163,6 @@ export function _getHotCommentlist (obj) {
   return result
 }
 
-// 获取歌手列表信息
-export function _getArtistlist (obj) {
-  const result = axios.get('/artist/list', {
-    params: {
-      ...obj
-    }
-  })
-  return result
-}
-
-
-/**最新歌曲 */
-export function _getTopSongs (type) {
-  return axios({
-    url: '/top/song',
-    params: {
-      type: type
-    }
-  })
-}
-
 
 
 // 获取收藏者信息
@@ -139,7 +173,20 @@ export function _getCollector (obj) {
   })
 }
 
+// 歌单end---------------------------
 
+// 歌手start------------------------------
+
+
+// 获取歌手列表信息
+export function _getArtistlist (obj) {
+  const result = axios.get('/artist/list', {
+    params: {
+      ...obj
+    }
+  })
+  return result
+}
 
 
 // 获取歌手介绍
@@ -172,8 +219,6 @@ export function _getArtistTop50 (id) {
   })
 }
 
-
-
 // 获取专辑内容
 export function _getAlbum (id) {
   return axios({
@@ -194,83 +239,6 @@ export function _simiArtist (id, cookie) {
     }
   })
 }
+// 歌手end---------------------
 
 
-
-// 发送评论
-export function _SendComments (obj) {
-  return axios({
-    url: '/comment',
-    params: {
-      ...obj
-    }
-  })
-}
-
-
-
-// 获取歌曲的mp3
-
-export function _getSongUrl (id) {
-  return axios({
-    url: '/song/url',
-    params: {
-      id
-    }
-  })
-}
-
-
-
-
-// 获取搜索建议
-export function _getSearchSuggest (keywords) {
-  return axios({
-    url: '/search/suggest',
-    params: {
-      keywords
-    }
-  })
-}
-
-// 获取搜索内容
-export function _getSearchList (keywords, type) {
-  return axios({
-    url: '/search',
-    params: {
-      keywords,
-      type
-    }
-  })
-}
-
-
-// 推荐新音乐
-export function _getPersonalizedNewsong () {
-  return axios({
-    url: '/personalized/newsong'
-  })
-}
-
-
-
-// 获取歌词信息
-export function _getLyric (id) {
-  return axios({
-    url: '/lyric',
-    params: {
-      id
-    }
-  })
-}
-
-
-// 获取歌曲评论
-export function _getSongComment (obj) {
-  return axios({
-    url: '/comment/music',
-    params: {
-      ...obj
-    }
-  })
-}

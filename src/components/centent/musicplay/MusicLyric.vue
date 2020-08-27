@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { _getLyric, _getSongComment } from '@/network/discover/discover'
+import { _getLyric, _getSongComment } from '@/network/song'
 import CommentList from '@/views/musiclistdetail/childrenComps/CommentList'
 import LyricList from './LyricList'
 export default {

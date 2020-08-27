@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { _getExclusiveBroadcastList } from '@/network/discover/discover'
 export default {
   data () {
     return {
@@ -21,17 +22,11 @@ export default {
   methods: {
     // 获取独家放送列表
     async getExclusiveBroadcastList () {
-      const result = await this.$http.get('/personalized/privatecontent/list', {
-        params: {
-          limit: 3
-        }
+      _getExclusiveBroadcastList(3).then(result => {
+        if (result.code !== 200) return this.$message.error(result.msg)
+        // console.log(result);
+        this.exclusiveBroadcastList = result.result
       })
-      if (result.name && result.name === 'Error') {
-        return this.$message.error('请求错误')
-      }
-      if (result.code !== 200) return this.$message.error(result.msg)
-      // console.log(result);
-      this.exclusiveBroadcastList = result.result
     },
   },
   created () {
