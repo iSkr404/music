@@ -26,7 +26,7 @@
     </div>
 
     <!-- 用户对话框 -->
-    <el-dialog class="loginDialog" title="" :visible.sync="userFormDialogVisible" width="25%" @close="userFormClose">
+    <el-dialog :modal='false' class="loginDialog" title="" :visible.sync="userFormDialogVisible" width="25%" @close="userFormClose">
       <img src="@/common/img/logo.jpg" alt="">
       <el-form :model="userForm" :rules="userFormRules" ref="userFormRef" class="demo-ruleForm">
         <el-form-item prop="phone">
@@ -104,17 +104,18 @@ export default {
         _userLogin({
           phone: this.userForm.phone,
           password: this.userForm.password
-        }).catch(err => err)
-        if (result.name && result.name === 'Error') {
-          return this.$message.error('登录失败')
-        }
-        console.log(result)
-        if (result.code !== 200) return this.$message.error(result.msg)
-        this.$message.success('登录成功')
-        this.$store.commit('addUser', result)
-        this.loginImgSrc = result.profile.avatarUrl
-        this.loginState = result.profile.nickname
-        this.userFormDialogVisible = false
+        }).then(result => {
+          if (result.name && result.name === 'Error') {
+            return this.$message.error('登录失败')
+          }
+          // console.log(result)
+          if (result.code !== 200) return this.$message.error(result.msg)
+          this.$message.success('登录成功')
+          this.$store.commit('addUser', result)
+          this.loginImgSrc = result.profile.avatarUrl
+          this.loginState = result.profile.nickname
+          this.userFormDialogVisible = false
+        })
       })
     },
     // 后退

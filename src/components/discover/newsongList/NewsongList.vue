@@ -69,6 +69,7 @@ export default {
 <style lang='less'>
 .NewsongList {
   margin-bottom: 80px;
+  width: 100%;
   .el-tabs {
     .el-tabs__nav-scroll {
       display: flex !important;

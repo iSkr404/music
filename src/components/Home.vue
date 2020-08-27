@@ -45,6 +45,6 @@ export default {
   padding: 0 !important;
 }
 .el-main {
-  margin-bottom: 60px;
+  margin-bottom: 90px;
 }
 </style>

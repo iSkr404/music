@@ -10,7 +10,9 @@ export default new Vuex.Store({
     uId: '',
     songList: [],
     showLyric: false,
-    songDetail: {}
+    songDetail: {},
+    isMusicPlay: false,
+    currentTime: 0
   },
   mutations: {
     addUser (store, obj) {
@@ -26,6 +28,12 @@ export default new Vuex.Store({
     },
     editSongDetai (store, obj) {
       store.songDetail = obj
+    },
+    editMusicPlay (store, type) {
+      store.isMusicPlay = type
+    },
+    editCurrentTime (store, time) {
+      store.currentTime = time
     }
   }
 })

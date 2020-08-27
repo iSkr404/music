@@ -29,12 +29,12 @@ export default {
 
 <style lang='less' scoped>
 .DetailBtns {
-  width: 110%;
+  width: 100%;
+  margin-left: -15px;
   margin-top: 30px;
-  margin-left: -20px;
-  padding-left: 5%;
   border-bottom: 1px solid #ccc;
-  display: flex;
+  padding-bottom: 5px;
+  padding-left: 30px;
   div {
     padding: 0 0 5px;
     span {

@@ -1,10 +1,9 @@
 html,
 body,
 #app{
-  margin: 0;
-  padding: 0;
+  margin: 0 !important;
+  padding: 0 !important;
   height: 100%;
-  min-width: 1280px;
   /* overflow-y:hidden; */
 }
 img {
@@ -130,4 +129,4 @@ header {
 }
 .el-drawer__wrapper{ 
   z-index: 149 !important;
-}  
+} 

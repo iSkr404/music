@@ -32,7 +32,7 @@
           <i class="iconfont" @click="soundHandle" v-if="!musicSound">&#xe63b;</i>
           <i class="iconfont" @click="soundHandle" v-else>&#xe666;</i>
           <div class="audio">
-            <audio autoplay @play="playLoad()" ref="audio" @error='audioError()' @timeupdate='timeupdate' @playing='musicPlaying()' @ended='musicEnded()' :src="playList.src"></audio>
+            <audio autoplay @play="playLoad()" ref="audio" @error='audioError()' @timeupdate='timeupdate' @playing='musicPlaying()' @pause="musicPause()" @ended='musicEnded()' :src="playList.src"></audio>
           </div>
           <el-slider :show-tooltip='false' v-model="volume">
           </el-slider>
@@ -59,7 +59,7 @@
       <music-play-list v-show="isShowMusicplaylist" :currentIndex='currentIndex' :musicList='musicList'></music-play-list>
     </transition>
 
-    <music-lyric></music-lyric>
+    <music-lyric ref="musicLyric"></music-lyric>
   </div>
 </template>
 
@@ -110,7 +110,14 @@ export default {
     audioError () {
       // this.$message.error('没有音频')
     },
-    musicPlaying () { },
+    // 开始播放
+    musicPlaying () {
+      this.$store.commit('editMusicPlay', true)
+    },
+    // 暂停了
+    musicPause () {
+      this.$store.commit('editMusicPlay', false)
+    },
     // 当歌曲加载完成播放时
     playLoad () {
       this.$refs.audio.volume = this.volume / 100
@@ -165,7 +172,7 @@ export default {
         }
         if (res.src == this.playList.src) {
           // 再判断如果相同 那是不是结束了
-          if (this.$refs.audio.ended) {
+          if (this.$refs.audio && this.$refs.audio.ended) {
             // 重新播放
             return this.musicLoad()
           }
@@ -192,6 +199,9 @@ export default {
       this.currentTime = formatDate(currentTime, 'mm:ss')
       // 滑块的位置
       this.sliderTimer = currentTime / duration * 100
+
+      this.$store.commit('editCurrentTime', currentTime)
+      // console.log(this.sliderTimer);
     },
     // 更新位置
     sliderChange (val) {

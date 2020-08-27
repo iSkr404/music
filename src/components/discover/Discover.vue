@@ -56,7 +56,7 @@ export default {
 
 <style lang='less' scoped>
 .Discover {
-  width: 1145px;
+  width: 100%;
   position: relative;
   margin: auto;
   left: 0;

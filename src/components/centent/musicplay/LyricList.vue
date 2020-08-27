@@ -1,8 +1,11 @@
 <template>
   <div class="lyriclist">
-    <ul v-if="lyricList.length">
-      <li v-for="(item,index) in lyricList" :key="index">{{item[1]}}</li>
-    </ul>
+    <div>
+      <!-- :style="{ transform: transformNum}" 滚动歌词这里想不到了 -->
+      <ul v-if="lyricList.length">
+        <li :class="currentItem==index?'currentItem':''" v-for="(item,index) in lyricList" :key="index">{{item}}</li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -18,61 +21,59 @@ export default {
   },
   data () {
     return {
-      lyricList: []
+      lyricList: [],
+      timerList: [],
+      currentItem: 0,
     }
   },
   methods: {
-    // parseLyric (lyric) {
-    //   let RegExp = /\[(\d*:\d*\.\d*)\]/;
-    //   let arr = [], timeArr = [], lyricArr = [], mergeArr = [];
-
-    //   /**将歌词转换成数组 */
-    //   arr = lyric.split('\n');
-
-    //   for (let i of arr) {
-    //     /**获取歌词 */
-    //     let lrc = i.split(']')[1];
-    //     if (lrc == '' || lrc == undefined) continue;
-    //     lyricArr.push(lrc);
-
-    //     /**处理时间 */
-    //     let resTime = RegExp.exec(i)[1];
-    //     let resTime2 = resTime.split(':');
-    //     let min = parseInt(resTime2[0]) * 60;
-    //     let sec = parseFloat(resTime2[1]);
-    //     let time = parseFloat(Number(min + sec).toFixed(2));//toFixed返回值是String
-    //     timeArr.push(time);
-    //   }
-    //   /**合并数组 */
-    //   for (let i = 0, length = timeArr.length; i < length; i++) {
-    //     let obj = new lyricItem(timeArr[i], lyricArr[i]);
-    //     mergeArr.push(obj);
-    //   }
-    //   /**排序 */
-    //   this.lyricArray = mergeArr.sort((a, b) => {
-    //     return a.time - b.time;
-    //   })
-    //   this.length = this.lyricArray.length;
-    // },
     initLyric () {
       let str = '\n'
       let lyricList1 = this.lyric.split('\n').join('').split('[').slice(1)
-
-      // console.log(lyricList);
       for (let i of lyricList1) {
         let tr = i.split(']')
         if (tr[1] == '') continue
-        this.lyricList.push(tr)
+        tr[0] = tr[0].split('.')[0];
+        let timer1 = parseInt(tr[0].split(':')[0] * 60)
+        let timer2 = parseInt(tr[0].split(':')[1])
+        tr[0] = new Date(parseFloat(Number(timer1 + timer2)) * 1000)
+        this.lyricList.push(tr[1])
+        this.timerList.push(tr[0])
       }
+      // console.log(this.lyricList)
+      // console.log(this.timerList);
     }
   },
   mounted () {
     this.initLyric()
   },
+  computed: {
+    isMusicPlay () {
+      return this.$store.state.isMusicPlay
+    },
+    currentTime () {
+      return this.$store.state.currentTime
+    },
+    transformNum () {
+      return 'translateY(' + this.currentItem * -20 + 'px)'
+    }
+  },
   watch: {
     lyric (val) {
       this.lyricList = []
+      this.timerList = []
       this.initLyric()
+    },
+    isMusicPlay (val) {
+      console.log(val);
+    },
+    currentTime (val) {
+      this.timerList.forEach((value, index) => {
+        //  后一项大于当前时间并且当前项小于当前时间 
+        if (this.timerList[index + 1] >= val && val >= value) {
+          this.currentItem = index
+        }
+      });
     }
   }
 }
@@ -83,10 +84,19 @@ export default {
   margin-top: 10px;
   overflow: auto;
   height: 340px;
-  li {
-    height: 28px;
-    line-height: 28px;
-    color: #333;
+  ul {
+    transition: 0.5s all;
+    transform: translateY(0px);
+    li {
+      height: 28px;
+      line-height: 28px;
+      color: #333;
+    }
+    li.currentItem {
+      font-size: 13px;
+      font-weight: 600;
+      color: #c62f2f;
+    }
   }
 }
 </style>
