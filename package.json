@@ -1,5 +1,5 @@
 {
-  "name": "wangyiyun",
+  "name": "music",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "default-passive-events": "^2.0.0",
     "element-ui": "^2.4.5",
     "less-loader": "^6.2.0",
+    "npm": "^6.14.8",
     "sass-loader": "^9.0.3",
     "vue": "^2.6.11",
     "vue-infinite-scroll": "^2.0.2",

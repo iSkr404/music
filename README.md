@@ -1,4 +1,6 @@
-大家先要把接口下载下来先，然后打开文件夹
+先下载接口
+
+[接口文档](https://binaryify.github.io/NeteaseCloudMusicApi/#/)
 
 运行接口
 ```
@@ -7,40 +9,125 @@ node app.js
 ```
 运行之后就可以看到接口的文档了。
 
-运行我的项目 
-```
+运行项目 
+```js
 npm install
 npm run serve
 ```
 
-如果是自己也要做一个的话 也可以看看我的源码 不难 应该容易看懂
+项目结构目录
 
-之后就照着接口文档一个一个实习自己想要的功能吧
+│  App.vue
+│  main.js
+│  
+├─assets 							#应用资源目录
+│      
+├─common						    #公共样式
+│  └─js
+│          swiper.js				#swiper插件
+│          tool.js					#封装的方法、时间格式化、十万以上截取、实现深拷贝
+│          
+├─components				        #公共组件
+│  │  Home.vue	                    #主页布局
+│  │  
+│  ├─allmv	                        #MV模块
+│  │      Allmv.vue
+│  │      
+│  ├─aside	                        #侧边栏
+│  │      Aside.vue	                #推荐、发现音乐、全部MV
+│  │      MySongList.vue	        #我的歌单
+│  │      
+│  ├─centent 	                    #共用组件
+│  │  ├─musiclist
+│  │  │      Musiclist.vue
+│  │  │      TableList.vue
+│  │  │      
+│  │  └─musicplay	                #底部音乐播放栏
+│  │          LyricList.vue
+│  │          MusicLyric.vue
+│  │          Musicplay.vue	        #主要展示页
+│  │          MusicPlayList.vue	    #播放列表
+│  │          playlist.js
+│  │          
+│  ├─discover	                    #推荐音乐
+│  │  │  Discover.vue
+│  │  │  
+│  │  ├─ArtistList
+│  │  │      Artist.vue
+│  │  │      ArtistList.vue
+│  │  │      
+│  │  ├─newsongList
+│  │  │      NewsongList.vue
+│  │  │      NewsongTable.vue
+│  │  │      
+│  │  ├─personalized
+│  │  │  │  Personalized.vue
+│  │  │  │  
+│  │  │  ├─individ
+│  │  │  │      Individ.vue
+│  │  │  │      
+│  │  │  ├─individchildren
+│  │  │  │      PrivateContent.vue
+│  │  │  │      
+│  │  │  └─newsong
+│  │  │          NewSong.vue
+│  │  │          
+│  │  ├─Popularsonglist
+│  │  │      Popularsonglist.vue
+│  │  │      
+│  │  └─RankingList
+│  │          ranking.vue
+│  │          RankingList.vue
+│  │          
+│  └─header
+│          header.vue
+│          searchBox.vue
+│          SearchSuggest.vue
+│          
+├─network
+│  │  axios.js
+│  │  search.js									
+│  │  song.js
+│  │  user.js
+│  │  
+│  └─discover
+│          discover.js
+│          
+├─plugins	                        #element插件
+│      element.js
+│      
+├─router	                        #路由
+│      index.js
+│      
+├─store	                            #vuex
+│      index.js
+│      
+└─views	                            #详情页
+    ├─artistdetail	                #歌手详情页
+    │  │  ArtistDetail.vue
+    │  │  
+    │  └─childrenComp
+    │          ArtistAlbum.vue
+    │          ArtistAlbumList.vue
+    │          ArtistBaseInfo.vue
+    │          ArtistBtns.vue
+    │          ArtistDesc.vue
+    │          ArtistMv.vue
+    │          SimiArtist.vue
+    │          
+    ├─musiclistdetail	            #音乐列表详情页
+    │  │  Musiclistdetail.vue
+    │  │  
+    │  └─childrenComps
+    │          Collector.vue
+    │          CommentList.vue
+    │          DetailBaseInfo.vue
+    │          DetailBtns.vue
+    │          
+    └─searchdetail	                #搜索详情页
+            SearchList.vue
+        
 
-b站演示地址 ：[https://www.bilibili.com/video/BV1sK4y1e7Up/](http://)
+效果图起飞:
 
-![项目结构](https://images.gitee.com/uploads/images/2020/0830/011755_d027d7bc_7778923.jpeg "结构.JPG")
-# wangyiyun
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![Snipaste_2020-11-06_18-08-52](C:\Users\19752\Desktop\Snipaste_2020-11-06_18-08-52.png)
