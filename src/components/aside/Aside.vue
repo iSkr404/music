@@ -25,7 +25,6 @@ export default {
   data () {
     return {
       current: 'discover',
-
     }
   },
   methods: {
@@ -41,12 +40,18 @@ export default {
   },
   created () {
     // this.current = window.sessionStorage.getItem('path')
+    this.toPath('discover');
   },
   computed: {
     songList () {
       return this.$store.state.songList
     }
-  }
+  },
+  // watch: {
+  //   $route(val){
+  //     console.log(val);
+  //   }
+  // },
 }
 </script>
 

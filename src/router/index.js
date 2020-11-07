@@ -10,6 +10,8 @@ import Musiclistdetail from '@/views/musiclistdetail/Musiclistdetail'
 import ArtistDetail from '@/views/artistdetail/ArtistDetail'
 // 搜索结果
 import SearchList from '@/views/searchdetail/SearchList'
+// mv详情页面
+import MvDetail from '@/views/mvdetail/mvdetail'
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,13 +24,14 @@ const routes = [
       { path: '/home/allmv', component: Allmv },
       { path: '/home/musiclistdetail', component: Musiclistdetail },
       { path: '/home/artistalbum', component: ArtistDetail },
-      { path: '/home/searchlist', component: SearchList }
+      { path: '/home/searchlist', component: SearchList },
+      { path: '/home/mvdetail', component: MvDetail }
     ]
   }
 
 ]
 const originalPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push (location) {
+VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
 const router = new VueRouter({

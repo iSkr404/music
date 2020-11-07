@@ -241,4 +241,42 @@ export function _simiArtist (id, cookie) {
 }
 // 歌手end---------------------
 
+// 获取全部
+export function _getMusicMV(){
+  return axios({
+    url:'/mv/all'
+  })
+}
+// 获取推荐的MV
+export function _getPersonalized(){
+  return axios({
+    url:'/personalized/mv'
+  })
+}
+// 获取最新的MV
+export function _getFristMv(obj){
+  return axios({
+    url:'/mv/first',
+    params:{
+      ...obj
+    }
+  })
+}
+// 获取mv的详情
+export function _getMvDetail(id){
+  // console.log(id);
+  // return axios({
+  //   url:'/mv/detail',
+  //   params:{
+  //     mvid:id
+  //   }
+  // })
+  const result = axios.get('/mv/detail', {
+    params: {
+      mvid: id
+    }
+  })
+  return result
+}
+
 

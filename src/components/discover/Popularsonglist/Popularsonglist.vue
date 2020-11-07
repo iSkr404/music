@@ -28,7 +28,6 @@ export default {
     getHotPlaylist () {
       _getHotPlaylist().then(result => {
         this.tags = result.tags
-        console.log(result);
         this.getMusicList()
       })
     },
