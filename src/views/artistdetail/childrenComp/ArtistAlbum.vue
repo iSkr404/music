@@ -2,11 +2,12 @@
   <div class="artistAlbum">
     <div class="item" v-for="item in albumList" :key="item.id">
       <div class="image">
-        <img :src="item.picUrl" alt="">
-        <div class="timer">{{item.publishTime | timer}}</div>
+        <img :src="item.picUrl" alt="" />
+        <div class="timer">{{ item.publishTime | timer }}</div>
       </div>
       <div class="sheet">
-        <div class="title">{{item.name}}
+        <div class="title">
+          {{ item.name }}
           <span>
             <i class="iconfont">&#xe63a;</i>
             <i class="iconfont">&#xe609;</i>
@@ -20,45 +21,45 @@
 </template>
 
 <script>
-import { _getArtistalbum } from '@/network/discover/discover'
-import ArtistAlbumList from './ArtistAlbumList'
-import { formatDate } from '@/common/js/tool.js'
+import { _getArtistalbum } from "@/network/discover/discover";
+import ArtistAlbumList from "./ArtistAlbumList";
+import { formatDate } from "@/common/js/tool.js";
 export default {
   props: ["id"],
-  data () {
+  data() {
     return {
       // 专辑列表
       albumList: [123],
-    }
+    };
   },
   methods: {
-    getArtistalbum () {
-      _getArtistalbum(this.id).then(result => {
-        this.albumList = result.hotAlbums
+    getArtistalbum() {
+      _getArtistalbum(this.id).then((result) => {
+        this.albumList = result.hotAlbums;
         // console.log(this.albumList);
-      })
+      });
     },
   },
-  mounted () {
-    this.getArtistalbum()
+  mounted() {
+    this.getArtistalbum();
   },
   components: {
-    ArtistAlbumList
+    ArtistAlbumList,
   },
   filters: {
-    timer (val) {
-      return formatDate(new Date(val), "yy-MM-dd")
-    }
+    timer(val) {
+      return formatDate(new Date(val), "yy-MM-dd");
+    },
   },
   watch: {
-    '$route' (to, from) {
-      if (from.path === '/home/artistalbum') {
-        this.id = this.$route.query.id
-        this.getArtistalbum()
+    $route(to, from) {
+      if (from.path === "/home/artistalbum") {
+        this.id = this.$route.query.id;
+        this.getArtistalbum();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang='less' scoped>
