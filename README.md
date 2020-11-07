@@ -22,3 +22,6 @@ npm run serve
 效果图起飞:
 
 [![B4QEEd.png](https://s1.ax1x.com/2020/11/07/B4QEEd.png)](https://imgchr.com/i/B4QEEd)
+[![B5AxJS.png](https://s1.ax1x.com/2020/11/07/B5AxJS.png)](https://imgchr.com/i/B5AxJS)
+[![B5EuQJ.png](https://s1.ax1x.com/2020/11/07/B5EuQJ.png)](https://imgchr.com/i/B5EuQJ)
+[![B5EYWD.png](https://s1.ax1x.com/2020/11/07/B5EYWD.png)](https://imgchr.com/i/B5EYWD)

@@ -452,7 +452,7 @@ i {
       font-size: 30px;
       color: #c62f2f;
       border-radius: 50%;
-      border: 1px solid #fff;
+      // border: 1px solid #fff;
       margin: 10px;
       vertical-align: top;
     }
