@@ -35,7 +35,12 @@ export default {
     asideMenu,
     headerTemp,
     Musicplay
-  }
+  },
+  // methods: {
+  //   getPause(){
+  //     this.$refs.pause.musicStop();
+  //   }
+  // },
 }
 </script>
 

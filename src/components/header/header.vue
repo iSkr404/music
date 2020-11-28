@@ -156,7 +156,6 @@ export default {
     // 获取热搜数据
     getSearchHot () {
       _getSearchHot().then(result => {
-        console.log(result);
         this.searchHotList = result.data
       })
     },

@@ -34,24 +34,27 @@ export default {
       this.$router.push(path)
     },
     toSong (id) {
-      this.current = id
-      this.$router.push({ path: '/home/musiclistdetail', query: { id } })
+      this.current = id;
+      this.$router.push({ path: '/musiclistdetail', query: { id } })
     }
   },
   created () {
     // this.current = window.sessionStorage.getItem('path')
-    this.toPath('discover');
+    if(sessionStorage.getItem('key')){
+       this.toPath(sessionStorage.getItem('key'));
+    }
   },
   computed: {
     songList () {
       return this.$store.state.songList
     }
   },
-  // watch: {
-  //   $route(val){
-  //     console.log(val);
-  //   }
-  // },
+  watch: {
+    $route(val){
+      let path=val.fullPath.split('/');
+      sessionStorage.setItem('key',path[2]);
+    }
+  },
 }
 </script>
 

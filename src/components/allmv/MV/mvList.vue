@@ -1,10 +1,10 @@
 <template>
   <div class="mvlist">
-    <img :src="mvlist.cover" width="250px" height="165px" alt="" @click="mvdateilClick(mvlist.id)" />
+    <img :src="mvlist.cover" width="290px" height="190px" alt="" @click="mvdateilClick(mvlist.id)" />
     <div>{{ mvlist.name }}</div>
     <span>{{ mvlist.artistName }}</span>
     <p class="playCount"><span></span>
-      <i class="el-icon-view"></i>{{ mvlist.playCount }}
+      <i class="el-icon-view"></i>{{ mvlist.playCount|formCount}}
     </p>
   </div>
 </template>
@@ -15,7 +15,18 @@ export default {
   props: ["mvlist"],
   methods: {
     mvdateilClick(id){
-      this.$router.push({path:'/home/mvdetail',query:{id:id}})
+      this.$store.commit('setPause');
+      this.$router.push({path:'/home/mvdetail',query:{id:id}});
+    }
+  },
+  filters:{
+    formCount(val){
+      let count=Math.round(val/10000);
+      if(count>=10){
+        return count+'万';
+      }else{
+        return val;
+      }
     }
   },
 };
@@ -30,7 +41,7 @@ export default {
   div {
     padding-top: 5px;
     font-size: 18px;
-    width: 230px;
+    width: 290px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -40,7 +51,7 @@ export default {
     right: 0;
     top: 0;
     color: white;
-    width: 250px;
+    width: 290px;
     text-align: right;
     background-image: linear-gradient(
       to right,

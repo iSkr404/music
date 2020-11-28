@@ -5,6 +5,7 @@ let vm = new Vue()
 let loading;
 let timer = null;
 axios.defaults.baseURL = 'http://127.0.0.1:3000/'
+// 请求拦截  拦截配置请求
 axios.interceptors.request.use((config) => {
   loading = Loading.service({
     lock: true,
@@ -14,6 +15,7 @@ axios.interceptors.request.use((config) => {
   })
   return config
 })
+// 响应拦截  拦截数据
 axios.interceptors.response.use(function (res) {
   clearTimeout(timer)
   timer = setTimeout(() => {

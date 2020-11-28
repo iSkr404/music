@@ -25,7 +25,7 @@ dd{
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
 }
-@font-face {
+/* @font-face {
   font-family: 'iconfont';
   src: url('../font_h9qrbrrobad/iconfont.eot');
   src: url('../font_h9qrbrrobad/iconfont.eot?#iefix') format('embedded-opentype'),
@@ -40,7 +40,7 @@ dd{
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+} */
 input {
   outline:none !important; 
     /**修改颜色*/ 

@@ -13,7 +13,6 @@
             <i class="iconfont">&#xe609;</i>
           </span>
         </div>
-        <!-- {{item}} -->
         <artist-album-list class="table" :id="item.id"></artist-album-list>
       </div>
     </div>

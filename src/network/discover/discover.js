@@ -248,9 +248,13 @@ export function _getMusicMV(){
   })
 }
 // 获取推荐的MV
-export function _getPersonalized(){
+export function _getRecomList(mid){
+  // console.log(mid);
   return axios({
-    url:'/personalized/mv'
+    url:'/simi/mv',
+    params:{
+      mvid:mid
+    }
   })
 }
 // 获取最新的MV
@@ -279,4 +283,35 @@ export function _getMvDetail(id){
   return result
 }
 
+// 获取mv地址
+export function _getMVurl(mid){
+  return axios({
+    url:'/mv/url',
+    params:{
+      id:mid
+    }
+  })
+}
+
+// 获取点赞条数
+export function _getMVevalute(id){
+  return axios({
+    url:'/mv/detail/info',
+    params:{
+      mvid:id
+    }
+  })
+}
+
+// 获取MV评论
+export function _getMvComment(mid){
+  console.log(mid);
+  return axios({
+    url:'/comment/mv',
+    params:{
+      id:mid,
+      // limit:10
+    }
+  })
+}
 

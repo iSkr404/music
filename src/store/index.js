@@ -12,7 +12,8 @@ export default new Vuex.Store({
     showLyric: false,
     songDetail: {},
     isMusicPlay: false,
-    currentTime: 0
+    currentTime: 0,
+    isPause:0,
   },
   mutations: {
     addUser (store, obj) {
@@ -34,6 +35,13 @@ export default new Vuex.Store({
     },
     editCurrentTime (store, time) {
       store.currentTime = time
+    },
+    setPause(state){
+      if(state.isPause==0){
+        state.isPause=1;
+      }else{
+        state.isPause=0;
+      }
     }
   }
 })
